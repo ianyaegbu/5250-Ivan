@@ -28,6 +28,11 @@ namespace Mine.Views
             BindingContext = this;
         }
 
+        void Value_onStepperValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            ValueValue.Text = String.Format("{0}", e.NewValue);
+        }
+
         async void Save_Clicked(object sender, EventArgs e)
         {
             MessagingCenter.Send(this, "AddItem", Item);
