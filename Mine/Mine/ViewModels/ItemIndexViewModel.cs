@@ -101,6 +101,11 @@ namespace Mine.ViewModels
             return result;
         }
 
+        /// <summary>
+        /// Update the record from the system
+        /// </summary>
+        /// <param name="data">The Record to Update</param>
+        /// <returns>Ture if Updated</returns>
         public async Task<bool> UpdateAsync(ItemModel data)
         {
             var record = await ReadAsync(data.Id);
@@ -109,8 +114,8 @@ namespace Mine.ViewModels
                 return false;
             }
 
-
-            var result = await DataStore.DeleteAsync(data.Id);
+            //Call to remove it from Data Store
+            var result = await DataStore.UpdateAsync(data);
 
             var canExecute = LoadItemsCommand.CanExecute(null);
             LoadItemsCommand.Execute(null);
