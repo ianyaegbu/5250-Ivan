@@ -27,6 +27,20 @@ namespace Mine.ViewModels
                 DataSet.Add(newItem);
                 await DataStore.CreateAsync(newItem);
             });
+
+            MessagingCenter.Subscribe<ItemDeletePage, ItemModel>(this, "DeleteItem", async (obj, item) =>
+            {
+                var data = item as ItemModel;
+                
+                await DeleteAsync(data);
+            });
+
+            MessagingCenter.Subscribe<ItemUpdatePage, ItemModel>(this, "UpdateItem", async (obj, item) =>
+            {
+                var data = item as ItemModel;
+
+                await UpdateAsync(data);
+            });
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -86,5 +100,23 @@ namespace Mine.ViewModels
 
             return result;
         }
+
+        public async Task<bool> UpdateAsync(ItemModel data)
+        {
+            var record = await ReadAsync(data.Id);
+            if (record == null)
+            {
+                return false;
+            }
+
+
+            var result = await DataStore.DeleteAsync(data.Id);
+
+            var canExecute = LoadItemsCommand.CanExecute(null);
+            LoadItemsCommand.Execute(null);
+
+            return result;
+        }
+
     }
 }
