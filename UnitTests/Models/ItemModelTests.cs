@@ -38,7 +38,7 @@ namespace UnitTests.Models
             Assert.AreEqual("Description", result.Description);
             Assert.AreEqual("ID", result.Id);
             Assert.AreEqual("Text", result.Text);
-            Assert.AreEqual("Value", result.Value);
+            Assert.AreEqual(1, result.Value);
         }
     }
 }
